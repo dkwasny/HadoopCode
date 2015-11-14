@@ -1,0 +1,23 @@
+# User must specify...
+# --table <table_to_write>
+# --export-dir <path_to_read>
+
+export
+
+--connect
+jdbc:mysql://vm-grid-1/chicago
+
+--username
+root
+
+--columns
+zipcode,time,temperature,dew_point,humidity,sea_level,visibility,wind_direction,wind_speed,gust_speed,precipitation,events,conditions,wind_direction_deg
+
+--fields-terminated-by
+,
+
+--lines-terminated-by
+\n
+
+--driver
+com.mysql.jdbc.Driver

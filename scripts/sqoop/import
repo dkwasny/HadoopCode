@@ -1,0 +1,22 @@
+# User must specify...
+# --table <table_to_read>
+# --target-dir <path_to_write>
+
+import
+
+--connect
+jdbc:mysql://vm-grid-1/chicago
+
+--driver
+com.mysql.jdbc.Driver
+
+--username
+root
+
+--as-textfile
+
+-z
+
+# See SQOOP-1617 for why this is here
+--fetch-size
+-2147483648

@@ -1,0 +1,10 @@
+OR {
+	AND {
+		getTemperatureFahrenheit < 30;
+		getWindSpeedMph > 40;
+	}
+	AND {
+		getTemperatureFahrenheit > 95;
+		getWindSpeedMph = 0;
+	}
+}
