@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS data(
 	conditions VARCHAR(255) COMMENT "Free Text",
 	wind_direction_deg INTEGER COMMENT "Degrees",
 
-	PRIMARY KEY (zipcode, time)
+	PRIMARY KEY (zipcode, datetime)
 );
