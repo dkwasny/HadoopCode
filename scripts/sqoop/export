@@ -11,7 +11,7 @@ jdbc:mysql://vm-grid-1/chicago
 root
 
 --columns
-zipcode,time,temperature,dew_point,humidity,sea_level,visibility,wind_direction,wind_speed,gust_speed,precipitation,events,conditions,wind_direction_deg
+zipcode,datetime,temperature,dew_point,humidity,sea_level,visibility,wind_direction,wind_speed,gust_speed,precipitation,events,conditions,wind_direction_deg
 
 --fields-terminated-by
 ,
