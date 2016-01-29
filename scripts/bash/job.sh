@@ -19,4 +19,5 @@ shift;
 mvn -f $POM_FILE package;
 
 get-maven-classpath $POM_FILE;
-hadoop jar $TARGET_DIR/*.jar $CLASS $PROJECT_CLASSPATH "$@";
+export HADOOP_CLASSPATH="$HADOOP_CLASSPATH:$PROJECT_CLASSPATH";
+hadoop jar $TARGET_DIR/*.jar $CLASS "$@";
