@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
-import org.apache.hadoop.hbase.mapreduce.HFileOutputFormat;
+import org.apache.hadoop.hbase.mapreduce.HFileOutputFormat2;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.util.Tool;
@@ -48,8 +48,8 @@ public class ChicagoHBaseBulkFileCreator extends Configured implements Tool {
 		job.setMapOutputValueClass(Put.class);
 		
 		HTable table = new HTable(conf, outputTable);
-		HFileOutputFormat.configureIncrementalLoad(job, table);
-		HFileOutputFormat.setOutputPath(job, outputPath);
+		HFileOutputFormat2.configureIncrementalLoad(job, table);
+		HFileOutputFormat2.setOutputPath(job, outputPath);
 
 		int retVal = 0;
 		if (job.waitForCompletion(true)) {
