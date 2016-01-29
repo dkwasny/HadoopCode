@@ -16,7 +16,7 @@ function get-maven-classpath() {
 		exit 1;
 	fi;
 
-	OUTPUT_FILE=$(mktmp);
+	OUTPUT_FILE=$(mktemp);
 	mvn -f $1 dependency:build-classpath -Dmdep.outputFile=$OUTPUT_FILE;
 	PROJECT_CLASSPATH="$(cat $OUTPUT_FILE | tr ':' ' ')";
 	rm $OUTPUT_FILE;
