@@ -16,6 +16,8 @@ function get-maven-classpath() {
 		exit 1;
 	fi;
 
+	# The classpath is first written to an output file so we don't have to
+	# worry about Maven log statements getting in the way.
 	OUTPUT_FILE=$(mktemp);
 	mvn -f $1 dependency:build-classpath -Dmdep.outputFile=$OUTPUT_FILE;
 	PROJECT_CLASSPATH="$(cat $OUTPUT_FILE)";
