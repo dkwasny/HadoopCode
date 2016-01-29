@@ -20,7 +20,7 @@ shift;
 # Update the jar just in case...remove if compile time is unruly (unlikely)
 mvn -f $POM_FILE package;
 
-export HADOOP_CLASSPATH="$(mvn -f $POM_FILE dependency:build-classpath | grep -v INFO)";
+export HADOOP_CLASSPATH="$(mvn -f $POM_FILE dependency:build-classpath -DincludeScope=runtime | grep -v INFO)";
 LIB_JARS="$(echo $HADOOP_CLASSPATH | tr ':' ',')";
 
 hadoop jar $TARGET_DIR/*.jar $CLASS -libjars "$LIB_JARS" "$@";
