@@ -120,7 +120,7 @@ public enum ChicagoTableColumns {
 	
 	private final byte[] bytes;
 	private final Function<ChicagoValue, byte[]> serializer;
-	private ChicagoTableColumns(byte[] pBytes, Function<ChicagoValue, byte[]> pSerializer) {
+	ChicagoTableColumns(byte[] pBytes, Function<ChicagoValue, byte[]> pSerializer) {
 		this.bytes = pBytes;
 		this.serializer = pSerializer;
 	}

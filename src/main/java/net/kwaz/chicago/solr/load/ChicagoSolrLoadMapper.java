@@ -10,7 +10,6 @@ import net.kwaz.chicago.json.ChicagoJsonWriter;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
@@ -18,7 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
 
 public class ChicagoSolrLoadMapper extends Mapper<ChicagoKey, ChicagoValue, NullWritable, NullWritable> {
@@ -78,7 +76,7 @@ public class ChicagoSolrLoadMapper extends Mapper<ChicagoKey, ChicagoValue, Null
 		generator = factory.createJsonGenerator(bos);
 	}
 
-	private void postToSolr(Context context) throws IOException, JsonGenerationException, ClientProtocolException {
+	private void postToSolr(Context context) throws IOException {
 		generator.flush();
 		bos.flush();
 		HttpEntity entity = new ByteArrayEntity(bos.toByteArray());

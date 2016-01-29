@@ -9,9 +9,9 @@ import java.util.Iterator;
 
 public class ChicagoRawDataParserReducer extends Reducer<ChicagoKey, ChicagoValue, ChicagoKey, ChicagoValue> {
 	
-	private static enum Counter {
+	private enum Counter {
 		DUPE_KEYS_SAME_VALUE,
-		DUPE_KEYS_DIFF_VALUE;
+		DUPE_KEYS_DIFF_VALUE
 	}
 	
 	@Override
@@ -27,10 +27,10 @@ public class ChicagoRawDataParserReducer extends Reducer<ChicagoKey, ChicagoValu
 		while (iter.hasNext()) {
 			ChicagoValue val = iter.next();
 			if (origValue.equals(val)) {
-				context.getCounter(Counter.DUPE_KEYS_SAME_VALUE).increment(1l);
+				context.getCounter(Counter.DUPE_KEYS_SAME_VALUE).increment(1L);
 			}
 			else{
-				context.getCounter(Counter.DUPE_KEYS_DIFF_VALUE).increment(1l);
+				context.getCounter(Counter.DUPE_KEYS_DIFF_VALUE).increment(1L);
 			}
 		}
 	}

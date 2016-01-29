@@ -14,7 +14,7 @@ public enum Event {
 	UNKNOWN(null);
 	
 	private final String sourceValue;
-	private Event(String pSourceValue) {
+	Event(String pSourceValue) {
 		this.sourceValue = pSourceValue;
 	}
 	

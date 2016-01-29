@@ -27,7 +27,7 @@ public enum WindDirection {
 	UNKNOWN(null);
 	
 	private final String sourceValue;
-	private WindDirection(String pSourceValue) {
+	WindDirection(String pSourceValue) {
 		this.sourceValue = pSourceValue;
 	}
 	

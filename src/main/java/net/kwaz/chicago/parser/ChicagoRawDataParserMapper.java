@@ -28,7 +28,7 @@ public class ChicagoRawDataParserMapper extends Mapper<LongWritable, Text, Chica
 		WIND_DIRECTION_PARSES_GOOD,
 		WIND_DIRECTION_PARSES_BAD,
 		NUMERIC_PARSES_GOOD,
-		NUMERIC_PARSES_BAD;
+		NUMERIC_PARSES_BAD
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class ChicagoRawDataParserMapper extends Mapper<LongWritable, Text, Chica
 		
 		// Skip bogus lines
 		if (Strings.isNullOrEmpty(valString) || valString.startsWith("Time") || valString.startsWith("No daily")) {
-			context.getCounter(Counter.SKIPPED_LINES).increment(1l);
+			context.getCounter(Counter.SKIPPED_LINES).increment(1L);
 			return;
 		}
 		
@@ -109,10 +109,10 @@ public class ChicagoRawDataParserMapper extends Mapper<LongWritable, Text, Chica
 	private WindDirection parseWindDirection(String raw, Context context) {
 		WindDirection windDirection = WindDirection.fromSourceValue(raw);
 		if (windDirection == WindDirection.UNKNOWN) {
-			context.getCounter(Counter.WIND_DIRECTION_PARSES_BAD).increment(1l);
+			context.getCounter(Counter.WIND_DIRECTION_PARSES_BAD).increment(1L);
 		}
 		else {
-			context.getCounter(Counter.WIND_DIRECTION_PARSES_GOOD).increment(1l);
+			context.getCounter(Counter.WIND_DIRECTION_PARSES_GOOD).increment(1L);
 		}
 		return windDirection;
 	}
@@ -124,16 +124,16 @@ public class ChicagoRawDataParserMapper extends Mapper<LongWritable, Text, Chica
 			for (String value : values) {
 				Event event = Event.fromSourceValue(value);
 				if (event == Event.UNKNOWN) {
-					context.getCounter(Counter.EVENT_PARSES_BAD).increment(1l);
+					context.getCounter(Counter.EVENT_PARSES_BAD).increment(1L);
 				}
 				else {
-					context.getCounter(Counter.EVENT_PARSES_GOOD).increment(1l);
+					context.getCounter(Counter.EVENT_PARSES_GOOD).increment(1L);
 				}
 				retVal.add(event);
 			}
 		}
 		else {
-			context.getCounter(Counter.EVENT_PARSES_EMPTY).increment(1l);
+			context.getCounter(Counter.EVENT_PARSES_EMPTY).increment(1L);
 		}
 		return retVal;
 	}
@@ -156,10 +156,10 @@ public class ChicagoRawDataParserMapper extends Mapper<LongWritable, Text, Chica
 		
 		try {
 			retVal = Integer.parseInt(value);
-			context.getCounter(Counter.NUMERIC_PARSES_GOOD).increment(1l);
+			context.getCounter(Counter.NUMERIC_PARSES_GOOD).increment(1L);
 		}
 		catch (NumberFormatException nfe) {
-			context.getCounter(Counter.NUMERIC_PARSES_BAD).increment(1l);
+			context.getCounter(Counter.NUMERIC_PARSES_BAD).increment(1L);
 		}
 		
 		return retVal;
@@ -170,10 +170,10 @@ public class ChicagoRawDataParserMapper extends Mapper<LongWritable, Text, Chica
 		
 		try {
 			retVal = Float.parseFloat(value);
-			context.getCounter(Counter.NUMERIC_PARSES_GOOD).increment(1l);
+			context.getCounter(Counter.NUMERIC_PARSES_GOOD).increment(1L);
 		}
 		catch (NumberFormatException nfe) {
-			context.getCounter(Counter.NUMERIC_PARSES_BAD).increment(1l);
+			context.getCounter(Counter.NUMERIC_PARSES_BAD).increment(1L);
 		}
 		
 		return retVal;

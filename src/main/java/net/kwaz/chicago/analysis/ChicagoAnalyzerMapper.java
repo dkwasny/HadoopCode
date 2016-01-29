@@ -12,11 +12,11 @@ import java.util.Iterator;
 
 public class ChicagoAnalyzerMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 	
-	private static enum Counter {
-		SKIPPED_LINES;
+	private enum Counter {
+		SKIPPED_LINES
 	}
 	
-	private static enum DataType {
+	private enum DataType {
 		TEMPERATURE_F,
 		DEW_POINT_F,
 		HUMIDITY,
@@ -48,7 +48,7 @@ public class ChicagoAnalyzerMapper extends Mapper<LongWritable, Text, Text, IntW
 		
 		// Skip "header" lines
 		if (Strings.isNullOrEmpty(valString) || valString.startsWith("Time") || valString.startsWith("No daily")) {
-			context.getCounter(Counter.SKIPPED_LINES).increment(1l);
+			context.getCounter(Counter.SKIPPED_LINES).increment(1L);
 			return;
 		}
 		
