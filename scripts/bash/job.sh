@@ -20,4 +20,5 @@ mvn -f $POM_FILE package;
 
 get-maven-classpath $POM_FILE;
 export HADOOP_CLASSPATH="$HADOOP_CLASSPATH:$PROJECT_CLASSPATH";
+export HADOOP_CLASSPATH="$HADOOP_CLASSPATH:/etc/hbase/conf";
 hadoop jar $TARGET_DIR/*.jar $CLASS "$@";
