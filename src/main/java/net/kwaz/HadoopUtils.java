@@ -3,8 +3,10 @@ package net.kwaz;
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.mapreduce.Job;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -83,5 +85,21 @@ public class HadoopUtils {
 	
 	public static String string(byte[] pBytes) {
 		return new String(pBytes, Charsets.UTF_8);
+	}
+
+	private static final String DEFAULT_DEPENDENCY_FOLDER = "dependencies";
+
+	public static void addDependenciesToClasspath(Job job) throws IOException {
+		addDependenciesToClasspath(new Path(DEFAULT_DEPENDENCY_FOLDER), job);
+	}
+
+	public static void addDependenciesToClasspath(Path directory, Job job) throws IOException {
+		FileStatus[] files;
+		try (FileSystem fs = FileSystem.get(job.getConfiguration())) {
+			files = fs.globStatus(directory.suffix("/*.jar"));
+		}
+		for (FileStatus file : files) {
+			job.addFileToClassPath(file.getPath());
+		}
 	}
 }

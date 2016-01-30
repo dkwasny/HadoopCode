@@ -1,5 +1,6 @@
 package net.kwaz.chicago.parser;
 
+import net.kwaz.HadoopUtils;
 import net.kwaz.chicago.ChicagoKey;
 import net.kwaz.chicago.ChicagoValue;
 
@@ -62,6 +63,8 @@ public class ChicagoRawDataParser extends Configured implements Tool {
 		SequenceFileOutputFormat.setOutputPath(job, outputPath);
 		
 		job.setNumReduceTasks(4);
+
+		HadoopUtils.addDependenciesToClasspath(job);
 		
 		return job.waitForCompletion(true) ? 0 : 1;
 	}

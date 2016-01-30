@@ -2,6 +2,7 @@ package net.kwaz.chicago.solr.load;
 
 import java.io.IOException;
 
+import net.kwaz.HadoopUtils;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.NullWritable;
@@ -47,6 +48,8 @@ public class ChicagoSolrLoad extends Configured implements Tool {
 		job.setNumReduceTasks(0);
 		
 		job.setOutputFormatClass(NullOutputFormat.class);
+
+		HadoopUtils.addDependenciesToClasspath(job);
 		
 		return job;
 	}

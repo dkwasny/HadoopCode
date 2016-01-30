@@ -1,5 +1,6 @@
 package net.kwaz.chicago.hbase.bulkload;
 
+import net.kwaz.HadoopUtils;
 import net.kwaz.chicago.parser.ChicagoRawDataParser;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -50,6 +51,8 @@ public class ChicagoHBaseBulkFileCreator extends Configured implements Tool {
 		HTable table = new HTable(conf, outputTable);
 		HFileOutputFormat2.configureIncrementalLoad(job, table);
 		HFileOutputFormat2.setOutputPath(job, outputPath);
+
+		HadoopUtils.addDependenciesToClasspath(job);
 
 		int retVal = 0;
 		if (job.waitForCompletion(true)) {
