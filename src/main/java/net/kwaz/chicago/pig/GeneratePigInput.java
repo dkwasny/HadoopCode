@@ -64,7 +64,9 @@ public class GeneratePigInput extends Configured implements Tool {
 		
 		job.setOutputFormatClass(TextOutputFormat.class);
 		TextOutputFormat.setOutputPath(job, outputPath);
-		
+
+		job.addFileToClassPath(new Path("dependencies/*.jar"));
+
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
 	
