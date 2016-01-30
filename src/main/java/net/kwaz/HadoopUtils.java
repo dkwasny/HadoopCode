@@ -94,10 +94,8 @@ public class HadoopUtils {
 	}
 
 	public static void addDependenciesToClasspath(Path directory, Job job) throws IOException {
-		FileStatus[] files;
-		try (FileSystem fs = FileSystem.get(job.getConfiguration())) {
-			files = fs.globStatus(directory.suffix("/*.jar"));
-		}
+		FileSystem fs = FileSystem.get(job.getConfiguration());
+		FileStatus[] files = fs.globStatus(directory.suffix("/*.jar"));
 		for (FileStatus file : files) {
 			job.addFileToClassPath(file.getPath());
 		}
