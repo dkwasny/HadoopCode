@@ -1,6 +1,9 @@
 package net.kwaz.chicago.pig;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -12,6 +15,8 @@ import org.apache.hadoop.util.ToolRunner;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+
+import java.io.IOException;
 
 public class GeneratePigInput extends Configured implements Tool {
 	
@@ -65,9 +70,19 @@ public class GeneratePigInput extends Configured implements Tool {
 		job.setOutputFormatClass(TextOutputFormat.class);
 		TextOutputFormat.setOutputPath(job, outputPath);
 
-		job.addFileToClassPath(new Path("dependencies/*.jar"));
+		addDependenciesToClasspath(new Path("dependencies"), job);
 
 		return job.waitForCompletion(true) ? 0 : 1;
+	}
+
+	private void addDependenciesToClasspath(Path directory, Job job) throws IOException {
+		FileStatus[] files;
+		try (FileSystem fs = FileSystem.get(job.getConfiguration())) {
+			files = fs.globStatus(directory.suffix("/*.jar"));
+		}
+		for (FileStatus file : files) {
+			job.addFileToClassPath(file.getPath());
+		}
 	}
 	
 }
