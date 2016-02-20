@@ -26,5 +26,5 @@ get-maven-classpath $POM_FILE;
 LIBS="$(echo $PROJECT_CLASSPATH | tr ':' ' ')";
 LIBS="$LIBS $SCRIPT_DIR/../../target/*jar";
 
-echo "Deploying jars to HDFS";
+echo "Deploying libs to HDFS";
 hdfs dfs -put $LIBS $HDFS_LIB_DIR;
