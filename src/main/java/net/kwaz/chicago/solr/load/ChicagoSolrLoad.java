@@ -49,7 +49,7 @@ public class ChicagoSolrLoad extends Configured implements Tool {
 		
 		job.setOutputFormatClass(NullOutputFormat.class);
 
-		HadoopUtils.addDependenciesToClasspath(job);
+		HadoopUtils.addLibsToClasspath(job);
 		
 		return job;
 	}

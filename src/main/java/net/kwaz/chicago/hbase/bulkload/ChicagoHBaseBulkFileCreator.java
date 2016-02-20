@@ -52,7 +52,7 @@ public class ChicagoHBaseBulkFileCreator extends Configured implements Tool {
 		HFileOutputFormat2.configureIncrementalLoad(job, table);
 		HFileOutputFormat2.setOutputPath(job, outputPath);
 
-		HadoopUtils.addDependenciesToClasspath(job);
+		HadoopUtils.addLibsToClasspath(job);
 
 		int retVal = 0;
 		if (job.waitForCompletion(true)) {

@@ -1,10 +1,7 @@
 package net.kwaz.chicago.pig;
 
 import net.kwaz.HadoopUtils;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -16,8 +13,6 @@ import org.apache.hadoop.util.ToolRunner;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-
-import java.io.IOException;
 
 public class GeneratePigInput extends Configured implements Tool {
 	
@@ -71,7 +66,7 @@ public class GeneratePigInput extends Configured implements Tool {
 		job.setOutputFormatClass(TextOutputFormat.class);
 		TextOutputFormat.setOutputPath(job, outputPath);
 
-		HadoopUtils.addDependenciesToClasspath(job);
+		HadoopUtils.addLibsToClasspath(job);
 
 		return job.waitForCompletion(true) ? 0 : 1;
 	}

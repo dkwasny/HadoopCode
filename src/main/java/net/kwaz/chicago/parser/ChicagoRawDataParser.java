@@ -64,7 +64,7 @@ public class ChicagoRawDataParser extends Configured implements Tool {
 		
 		job.setNumReduceTasks(4);
 
-		HadoopUtils.addDependenciesToClasspath(job);
+		HadoopUtils.addLibsToClasspath(job);
 		
 		return job.waitForCompletion(true) ? 0 : 1;
 	}

@@ -87,13 +87,13 @@ public class HadoopUtils {
 		return new String(pBytes, Charsets.UTF_8);
 	}
 
-	private static final String DEFAULT_DEPENDENCY_FOLDER = "dependencies";
+	private static final String DEFAULT_LIB_FOLDER = "lib";
 
-	public static void addDependenciesToClasspath(Job job) throws IOException {
-		addDependenciesToClasspath(new Path(DEFAULT_DEPENDENCY_FOLDER), job);
+	public static void addLibsToClasspath(Job job) throws IOException {
+		addLibsToClasspath(new Path(DEFAULT_LIB_FOLDER), job);
 	}
 
-	public static void addDependenciesToClasspath(Path directory, Job job) throws IOException {
+	public static void addLibsToClasspath(Path directory, Job job) throws IOException {
 		FileSystem fs = FileSystem.get(job.getConfiguration());
 		FileStatus[] files = fs.globStatus(directory.suffix("/*.jar"));
 		for (FileStatus file : files) {
