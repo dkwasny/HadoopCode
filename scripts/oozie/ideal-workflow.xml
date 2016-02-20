@@ -1,0 +1,97 @@
+<!--
+	I would prefer to use this workflow, but this level of forking and 
+	joining is not supported by oozie.
+
+	I am keeping this file around for demonstrative purposes.
+-->
+<workflow-app name="main-workflow" xmlns="uri:oozie:workflow:0.5">
+
+	<start to="start-fork" />
+	
+	<fork name="start-fork">
+		<path start="create-hbase-table" />
+		<path start="generate-sequence-file" />
+	</fork>
+
+	<action name="create-hbase-table">
+		<java>
+			<job-tracker>${job-tracker}</job-tracker>
+			<name-node>${name-node}</name-node>
+			<main-class>net.kwaz.chicago.hbase.table.ChicagoTableCreator</main-class>
+			<arg>${hbase-table}</arg>
+		</java>
+		<ok to="hbase-loader-join" />
+		<error to="fail" />
+	</action>
+	
+	<action name="generate-sequence-file">
+		<java>
+			<job-tracker>${job-tracker}</job-tracker>
+			<name-node>${name-node}</name-node>
+			<main-class>net.kwaz.chicago.parser.ChicagoRawDataParser</main-class>
+			<arg>-i</arg>
+			<arg>${input}</arg>
+			<arg>-o</arg>
+			<arg>${output.sequence-file}</arg>
+		</java>
+		<ok to="sequence-file-fork" />
+		<error to="fail" />
+	</action>
+
+	<fork name="sequence-file-fork">
+		<path start="hbase-loader-join" />
+		<path start="generate-pig-file" />
+	</fork>
+
+	<join name="hbase-loader-join" to="bulkload-to-hbase" />
+
+	<action name="bulkload-to-hbase">
+		<java>
+			<job-tracker>${job-tracker}</job-tracker>
+			<name-node>${name-node}</name-node>
+			<main-class>net.kwaz.chicago.hbase.bulkload.ChicagoHBaseBulkFileCreator</main-class>
+			<arg>${output.sequence-file}</arg>
+			<arg>${output.hbase-bulk-file}</arg>
+			<arg>${hbase-table}</arg>
+		</java>
+		<ok to="end-join" />
+		<error to="fail" />
+	</action>
+
+	<action name="generate-pig-file">
+		<java>
+			<job-tracker>${job-tracker}</job-tracker>
+			<name-node>${name-node}</name-node>
+			<main-class>net.kwaz.chicago.pig.GeneratePigInput</main-class>
+			<arg>-i</arg>
+			<arg>${output.sequence-file}</arg>
+			<arg>-o</arg>
+			<arg>${output.pig-file}</arg>
+		</java>
+		<ok to="pig-job" />
+		<error to="fail" />
+	</action>
+
+	<action name="pig-job">
+		<pig>
+			<job-tracker>${job-tracker}</job-tracker>
+			<name-node>${name-node}</name-node>
+			<script>average_monthly_temperature.pig</script>
+			<argument>-p</argument>
+			<argument>input_path=${output.sequence-file}</argument>
+			<argument>-p</argument>
+			<argument>output_path=${output.pig-file}</argument>
+		</pig>
+		<ok to="end-join" />
+		<error to="fail" />
+	</action>
+
+	<join name="end-join" to="end" />
+	
+	<kill name="fail">
+		<message>Workflow failed!</message>
+	</kill>
+	
+	<end name="end" />
+	
+</workflow-app>
