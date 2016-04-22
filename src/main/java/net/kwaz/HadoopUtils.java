@@ -17,14 +17,6 @@ public class HadoopUtils {
 	
 	public static final char SEP = '|';
 	
-	public static void deleteFiles(Iterable<Path> pPaths, Configuration conf) throws IOException {
-		FileSystem fs = FileSystem.get(conf);
-		for (Path path : pPaths) {
-			fs.delete(path, false);
-		}
-		fs.close();
-	}
-	
 	public static <T extends Enum<T>> void writeEnumSet(EnumSet<T> events, DataOutput out) throws IOException {
 		out.writeInt(events.size());
 		for (T event : events) {
@@ -65,18 +57,6 @@ public class HadoopUtils {
 			retVal.add(Enum.valueOf(klass, value));
 		}
 		return retVal;
-	}
-	
-	public static void writeString(String value, DataOutput out) throws IOException {
-		out.writeInt(value.length());
-		out.write(bytes(value));
-	}
-	
-	public static String readString(DataInput in) throws IOException {
-		int length = in.readInt();
-		byte[] bytes = new byte[length];
-		in.readFully(bytes);
-		return string(bytes);
 	}
 	
 	public static byte[] bytes(String pString) {

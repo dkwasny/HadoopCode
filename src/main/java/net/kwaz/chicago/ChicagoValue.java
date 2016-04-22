@@ -71,7 +71,7 @@ public class ChicagoValue implements Writable {
 		gustSpeedMph = arg0.readFloat();
 		precipitationInches = arg0.readFloat();
 		events = HadoopUtils.readEnumSet(arg0, Event.class);
-		conditions = HadoopUtils.readString(arg0);
+		conditions = arg0.readUTF();
 		windDirectionDegrees = arg0.readInt();
 	}
 
@@ -87,7 +87,7 @@ public class ChicagoValue implements Writable {
 		arg0.writeFloat(gustSpeedMph);
 		arg0.writeFloat(precipitationInches);
 		HadoopUtils.writeEnumSet(events, arg0);
-		HadoopUtils.writeString(conditions, arg0);
+		arg0.writeUTF(conditions);
 		arg0.writeInt(windDirectionDegrees);
 	}
 

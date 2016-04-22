@@ -1,6 +1,7 @@
 package net.kwaz.chicago;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import org.apache.hadoop.io.WritableComparable;
 import org.joda.time.DateTime;
@@ -18,6 +19,10 @@ public class ChicagoKey implements WritableComparable<ChicagoKey> {
 	public ChicagoKey() { }
 	
 	public ChicagoKey(int pZipCode, DateTime pDateTimeUtc) {
+		Preconditions.checkArgument(
+			DateTimeZone.UTC.equals(pDateTimeUtc.getZone()),
+			"Only UTC timezones are allowed"
+		);
 		this.zipCode = pZipCode;
 		this.dateTimeUtc = pDateTimeUtc;
 	}
