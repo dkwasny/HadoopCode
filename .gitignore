@@ -4,3 +4,6 @@ target
 bin
 *.iml
 .idea
+*.swp
+.gradle
+build

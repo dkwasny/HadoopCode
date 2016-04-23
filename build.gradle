@@ -1,0 +1,42 @@
+apply plugin: "java"
+
+group = "net.kwaz"
+version = "1.0-SNAPSHOT"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile "joda-time:joda-time:2.9.1"
+	compile "org.codehaus.jackson:jackson-core-asl:1.9.13"
+	compile "org.apache.httpcomponents:httpclient:4.5.1"
+	compile "com.beust:jcommander:1.48"
+
+	// Hadoop jars I actually use
+	compileOnly "org.apache.hadoop:hadoop-client:2.7.1"
+	compileOnly "org.apache.hbase:hbase-client:0.98.12-hadoop2"
+	compileOnly "org.apache.hbase:hbase-server:0.98.12-hadoop2"
+
+	// Force transitive dependencies to a specific version
+	compileOnly "org.apache.hadoop:hadoop-auth:2.7.1"
+	compileOnly "org.apache.hadoop:hadoop-hdfs:2.7.1"
+	compileOnly "org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.7.1"
+}
+
+/*
+	This statement adds all dependencies in the "compileOnly" configuration to
+	the "testCompile" configuration.
+	
+	I need the "compileOnly" jars on the classpath when compiling code and
+	running tests, but not when getting the set of "runtime" dependencies
+	when deploying them to HDFS.
+	
+	This is very similar to the "provided" dependency scope from Maven.
+	See the below ticket for an epic saga about getting "provided" in gradle.
+	https://issues.gradle.org/browse/GRADLE-784
+*/
+configurations.testCompile.extendsFrom(configurations.compileOnly)
