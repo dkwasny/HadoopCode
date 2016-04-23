@@ -24,7 +24,8 @@ function get-jar() {
 
 # Execute gradlew using the supplied arguments
 function execute-gradlew() {
-	echo "$(cd ../../; ./gradlew $@)";
+	local SCRIPT_DIR="$(dirname $0)";
+	echo "$(cd $SCRIPT_DIR/../../; ./gradlew $@)";
 }
 
 # Echos the runtime classpath as reported by Gradle
