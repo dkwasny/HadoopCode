@@ -18,17 +18,21 @@ function get-file() {
 }
 
 # Echos the gradlew build file if found
-function get-build-file() {
-	echo "$(get-file $(dirname $0)/../../gradlew)";
-}
+#function get-build-file() {
+#	echo "$(get-file $(dirname $0)/../../gradlew)";
+#}
 
 # Echos the jar compiled by Gradle
 function get-jar() {
 	echo "$(get-file $(dirname $0)/../../build/libs/*jar)";
 }
 
+# Execute gradlew using the supplied arguments
+function execute-gradlew() {
+	echo "(cd ../../; ./gradlew $@)";
+}
+
 # Echos the runtime classpath as reported by Gradle
 function get-gradle-classpath() {
-	local BUILD_FILE="$(get-build-file)";
-	echo "$($BUILD_FILE printClasspath | grep '^Classpath:' | sed 's/^Classpath://')";
+	echo "$(execute-gradlew printClasspath | grep '^Classpath:' | sed 's/^Classpath://')";
 }

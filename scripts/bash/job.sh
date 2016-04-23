@@ -14,7 +14,7 @@ CLASS="$1";
 shift;
 
 # Update the jar just in case...remove if compile time is unruly (unlikely)
-"$(get-build-file)" build;
+execute-gradlew build;
 JAR="$(get-jar)";
 
 HADOOP_CLASSPATH="$HADOOP_CLASSPATH:$(get-gradle-classpath)";
