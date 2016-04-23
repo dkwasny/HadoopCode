@@ -40,3 +40,7 @@ dependencies {
 	https://issues.gradle.org/browse/GRADLE-784
 */
 configurations.testCompile.extendsFrom(configurations.compileOnly)
+
+task printClasspath << {
+	print "Classpath: " + configurations.runtime.asPath
+}

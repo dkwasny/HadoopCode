@@ -2,24 +2,33 @@
 # If the command does not exist, the function exits with status 1.
 function check-command() {
 	if ! which "$1" > /dev/null; then
-		echo "$1 command not found...exiting";
+		echo "ERROR: $1 command not found...exiting" 1>&2;
 		exit 1;
 	fi;
 }
 
-# Retrieves the full classpath for this project and sets it to
-# PROJECT_CLASSPATH.
-# The targeted pom file must be passed in as the first and only argument.
-function get-maven-classpath() {
-	if [ -z "$1" ]; then
-		echo "No pom file provided...exiting";
+# Echos the path of a file if it exists
+function get-file() {
+	local FILE="$1";
+	if [ ! -f "$FILE" ]; then
+		echo "ERROR: Could not find $FILE" 1>&2;
 		exit 1;
 	fi;
+	echo "$FILE";
+}
 
-	# The classpath is first written to an output file so we don't have to
-	# worry about Maven log statements getting in the way.
-	OUTPUT_FILE=$(mktemp);
-	mvn -f $1 dependency:build-classpath -Dmdep.outputFile=$OUTPUT_FILE;
-	PROJECT_CLASSPATH="$(cat $OUTPUT_FILE)";
-	rm $OUTPUT_FILE;
+# Echos the gradlew build file if found
+function get-build-file() {
+	echo "$(get-file $(dirname $0)/../../gradlew)";
+}
+
+# Echos the jar compiled by Gradle
+function get-jar() {
+	echo "$(get-file $(dirname $0)/../../build/libs/*jar)";
+}
+
+# Echos the runtime classpath as reported by Gradle
+function get-gradle-classpath() {
+	local BUILD_FILE="$(get-build-file)";
+	echo "$($BUILD_FILE printClasspath | grep '^Classpath:' | sed 's/^Classpath://')";
 }

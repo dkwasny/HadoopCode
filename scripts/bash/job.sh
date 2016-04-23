@@ -6,19 +6,18 @@
 # however many parameters you need
 
 SCRIPT_DIR="$(dirname $0)";
-. $SCRIPT_DIR/util/set-pom.sh;
 . $SCRIPT_DIR/util/functions.sh;
 
-check-command mvn;
 check-command hadoop;
 
 CLASS="$1";
 shift;
 
 # Update the jar just in case...remove if compile time is unruly (unlikely)
-mvn -f $POM_FILE package;
+"$(get-build-file)" build;
+JAR="$(get-jar)";
 
-get-maven-classpath $POM_FILE;
-export HADOOP_CLASSPATH="$HADOOP_CLASSPATH:$PROJECT_CLASSPATH";
+HADOOP_CLASSPATH="$HADOOP_CLASSPATH:$(get-gradle-classpath)";
+HADOOP_CLASSPATH="$HADOOP_CLASSPATH:$JAR";
 export HADOOP_CLASSPATH="$HADOOP_CLASSPATH:/etc/hbase/conf";
-hadoop jar $TARGET_DIR/*.jar $CLASS "$@";
+hadoop jar "$JAR" "$CLASS" "$@";
