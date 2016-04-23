@@ -17,11 +17,6 @@ function get-file() {
 	echo "$FILE";
 }
 
-# Echos the gradlew build file if found
-#function get-build-file() {
-#	echo "$(get-file $(dirname $0)/../../gradlew)";
-#}
-
 # Echos the jar compiled by Gradle
 function get-jar() {
 	echo "$(get-file $(dirname $0)/../../build/libs/*jar)";
@@ -29,7 +24,7 @@ function get-jar() {
 
 # Execute gradlew using the supplied arguments
 function execute-gradlew() {
-	echo "(cd ../../; ./gradlew $@)";
+	echo "$(cd ../../; ./gradlew $@)";
 }
 
 # Echos the runtime classpath as reported by Gradle

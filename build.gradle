@@ -15,12 +15,13 @@ dependencies {
 	compile "org.codehaus.jackson:jackson-core-asl:1.9.13"
 	compile "org.apache.httpcomponents:httpclient:4.5.1"
 	compile "com.beust:jcommander:1.48"
+	compile "org.apache.hbase:hbase-client:0.98.12-hadoop2"
+	compile "org.apache.hbase:hbase-server:0.98.12-hadoop2"
 
-	// Hadoop jars I actually use
+	// All base hadoop jars are provided in the 'hadoop jar' driver
+	// and all map reduce tasks.
+	// Declare them as compileOnly so they do not get deployed to HDFS.
 	compileOnly "org.apache.hadoop:hadoop-client:2.7.1"
-	compileOnly "org.apache.hbase:hbase-client:0.98.12-hadoop2"
-	compileOnly "org.apache.hbase:hbase-server:0.98.12-hadoop2"
-
 	// Force transitive dependencies to a specific version
 	compileOnly "org.apache.hadoop:hadoop-auth:2.7.1"
 	compileOnly "org.apache.hadoop:hadoop-hdfs:2.7.1"
