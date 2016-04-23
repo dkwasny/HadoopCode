@@ -12,6 +12,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.IOException;
@@ -72,7 +73,10 @@ public class ChicagoRawDataParserMapper extends Mapper<LongWritable, Text, Chica
 		int windDirectionDegrees = parseInt(data.next(), context);
 		
 		String dateString = data.next().replace(" ", "T").concat("+0000");
-		DateTime dateTimeUtc = ISODateTimeFormat.dateTimeNoMillis().parseDateTime(dateString);
+		DateTime dateTimeUtc = ISODateTimeFormat
+			.dateTimeNoMillis()
+			.parseDateTime(dateString)
+			.withZone(DateTimeZone.UTC);
 		
 		if (data.hasNext()) {
 			StringBuilder builder = new StringBuilder();
